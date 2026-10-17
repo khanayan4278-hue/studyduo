@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Study Duo</title>
+<style>
+:root{--bg:#eceeff;--ink:#1d1e33;--muted:#6f7392;--blue:#5b6cf5;--blue2:#4458e8;--orange:#f39a34;--purple:#8a3ffc;--pink:#e3566b;--green:#2fb67c;--line:#e0e3f7;--soft:#f5f6ff;--sh:0 6px 24px rgba(70,80,160,.1)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;color:#fff;background:var(--blue);padding:10px 16px;border-radius:14px;font-weight:700}
+button.secondary{background:#e6e9ff;color:var(--blue2)}button.ghost{background:transparent;color:var(--blue2);border:1px solid var(--line)}
+:focus-visible{outline:3px solid var(--purple);outline-offset:2px}
+.app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+.sidebar{padding:22px 14px;background:#fff;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:18px}
+.brand{display:flex;gap:10px;align-items:center;padding:0 6px}.brandIcon{font-size:30px}.brand strong{font-size:22px}.brand span{color:var(--purple)}.tag{font-size:12px;color:var(--muted)}
+.nav{display:grid;gap:6px}.nav button{background:transparent;text-align:left;color:var(--muted);font-weight:600}.nav button.active,.nav button:hover{background:#e6e9ff;color:var(--blue2)}
+.sidequote{margin-top:auto;padding:16px;border-radius:20px;background:var(--blue);color:#fff;line-height:1.5}
+main{padding:24px;max-width:1100px;width:100%;margin:auto}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.topActions{display:flex;gap:8px;align-items:center}
+.eyebrow{color:var(--purple);font-size:13px;font-weight:700}
+.hero{border-radius:26px;padding:26px;display:flex;align-items:center;justify-content:space-between;gap:16px;background:linear-gradient(135deg,#5b6cf5,#7b5cf5);color:#fff;overflow:hidden}
+.hero .eyebrow{color:#dfe3ff}.hero h1{font-size:clamp(26px,4vw,40px);margin:6px 0}.hero p{margin:0;color:#e4e7ff}.heroArt{font-size:60px}
+.sectionTitle{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:24px 0 12px}.sectionTitle h2{margin:0;font-size:20px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.student,.panel,.feature{background:#fff;border-radius:22px;box-shadow:var(--sh);min-width:0}.student{padding:18px}.panel{padding:18px;margin-top:15px}.panel h3{margin:0 0 12px}
+.studentHead{display:flex;gap:12px;align-items:center}.avatar{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-size:24px;background:#e6e9ff;flex-shrink:0}
+.student h3{margin:0 0 4px;font-size:17px}.subtle{color:var(--muted);font-size:13px}.pill{display:inline-block;font-size:11px;padding:4px 9px;border:1px solid var(--line);border-radius:99px;color:var(--blue2);margin-top:5px}
+.progressRow{display:flex;align-items:center;gap:12px;margin:16px 0}.ring{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--orange) var(--pct),#e6e9ff 0);position:relative;flex-shrink:0}
+.ring:before{content:"";position:absolute;inset:6px;background:#fff;border-radius:50%}.ring strong{z-index:1;font-size:13px}.progressInfo{flex:1}.progressInfo strong{font-size:14px}
+.bar{height:8px;border-radius:99px;background:#e6e9ff;overflow:hidden;margin-top:8px}.bar span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--purple));width:0}
+.subjects{display:grid;gap:8px}.subject{display:flex;align-items:center;gap:10px;padding:12px;border-radius:16px;background:var(--soft)}
+.subjectIcon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--orange);font-size:18px;flex-shrink:0}
+.subject:nth-child(3n+2) .subjectIcon{background:var(--blue)}.subject:nth-child(3n) .subjectIcon{background:var(--purple)}
+.subjectText{flex:1;min-width:0}.subjectText strong{display:block;font-size:13px}.subjectText small{display:block;color:var(--muted);font-size:11px;margin-top:4px}.subject button{padding:7px 11px;font-size:12px}
+.featureGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:18px}.feature{padding:15px}.feature .emoji{font-size:24px}.feature h3{font-size:14px;margin:8px 0 4px}.feature p{font-size:12px;color:var(--muted);margin:0 0 12px;line-height:1.4}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:18px}.stat{border-radius:20px;padding:14px;color:#fff;min-height:100px;display:flex;flex-direction:column;justify-content:space-between}
+.stat small{font-size:12px}.stat strong{font-size:26px}.s1{background:var(--blue)}.s2{background:var(--orange)}.s3{background:var(--purple)}.chart{width:100%;height:auto;display:block}
+.formRow{display:flex;gap:8px;flex-wrap:wrap}input,select,textarea{background:var(--soft);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:10px;min-width:0}.formRow input{flex:1}
+.list{display:grid;gap:8px}.item{display:flex;gap:10px;align-items:flex-start;padding:11px;background:var(--soft);border-radius:14px}.item .body{flex:1}.item small{display:block;color:var(--muted);margin-top:4px}.item button{padding:6px 10px;background:#e6e9ff;color:var(--blue2)}
+.chatLog{height:260px;overflow:auto;display:flex;flex-direction:column;gap:9px;padding:12px;background:var(--soft);border-radius:16px;margin-bottom:10px}
+.bubble{max-width:85%;padding:10px 13px;border-radius:16px;background:#fff;align-self:flex-start;white-space:pre-wrap;overflow-wrap:anywhere}.bubble.mine{background:var(--blue);color:#fff;align-self:flex-end}.bubble small{display:block;opacity:.75;font-size:10px;margin-top:4px}
+.mutedBox{border:1px dashed #b9c0ee;border-radius:14px;padding:12px;color:var(--muted);font-size:13px;line-height:1.5}
+.days{display:flex;gap:6px}.day{flex:1;border-radius:16px;padding:9px 0;text-align:center;background:#fff;color:var(--ink);font-weight:600;box-shadow:var(--sh)}.day small{display:block;color:var(--muted);font-weight:500}.day.on{background:var(--blue);color:#fff}.day.on small{color:#e4e7ff}
+.slot{border-radius:18px;padding:13px 14px;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:10px}.slot small{display:block;opacity:.9;margin-top:3px}.slot button{background:rgba(255,255,255,.25);padding:6px 10px}
+.c0{background:var(--orange)}.c1{background:var(--blue)}.c2{background:var(--pink)}.c3{background:var(--purple)}
+.courseHead{border-radius:26px;background:linear-gradient(135deg,#5b6cf5,#7b5cf5);color:#fff;padding:22px;display:flex;gap:16px;align-items:center}.courseHead h2{margin:0 0 6px}.courseHead .heroArt{font-size:52px}
+.lessons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.lesson{border-radius:18px;padding:14px;color:#fff;background:var(--blue);display:flex;gap:10px;align-items:flex-start}.lesson.done{background:var(--green)}.lesson strong{display:block}.lesson small{opacity:.85}
+#roleBox{position:fixed;inset:0;background:rgba(29,30,51,.6);display:none;place-items:center;z-index:9;padding:20px}#roleBox .panel{max-width:360px;text-align:center}#roleBox button{display:block;width:100%;margin-top:10px}#loginBox{position:fixed;inset:0;background:var(--bg);display:grid;place-items:center;z-index:10;padding:20px}#loginBox .panel{width:100%;max-width:360px}#loginBox input{width:100%;margin-top:10px}#loginBox button{width:100%;margin-top:12px}.banner{background:#fff3df;color:#7a4a00;border-radius:14px;padding:10px 14px;margin-bottom:14px;font-size:13px}.reply{margin:8px 0 0 14px;padding:8px 10px;background:#fff;border-radius:12px;font-size:13px}.hidden{display:none!important}.foot{color:var(--muted);font-size:12px;text-align:center;margin:24px 0 5px}
+.toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:14px;z-index:6;font-weight:700;display:none;max-width:90vw}
+.rtl{direction:rtl}.rtl .sidebar{border-right:0;border-left:1px solid var(--line)}.rtl .nav button{text-align:right}
+@media(max-width:900px){.app{grid-template-columns:1fr;padding-bottom:72px}.sidebar{padding:12px 0 0;background:transparent;border:0}.brand{justify-content:center}.tag,.sidequote{display:none}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;overflow-x:auto;padding:6px;gap:2px;z-index:4}
+.nav button{flex:1 0 auto;display:flex;flex-direction:column;align-items:center;padding:7px 9px;font-size:11px;text-align:center}main{padding:14px}.featureGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.grid2{grid-template-columns:1fr}.hero{padding:20px}.heroArt{font-size:44px}.topbar{align-items:flex-start}.topActions{flex-wrap:wrap;justify-content:flex-end}.topbar h2{font-size:17px}.lessons{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+<aside class="sidebar">
+  <div class="brand"><div class="brandIcon">📖</div><div><strong>Study <span>Duo</span></strong><div class="tag" data-i18n="tagline">Two Students · One Goal</div></div></div>
+  <nav class="nav">
+    <button class="active" data-page="home">⌂ <span data-i18n="home">Home</span></button>
+    <button data-page="subjects">▤ <span data-i18n="myspace">My Study Space</span></button>
+    <button data-page="schedule">▦ <span data-i18n="schedule">Schedule</span></button>
+    <button data-page="course">▶ <span data-i18n="course">Course</span></button>
+    <button data-page="doubts">? <span data-i18n="doubts">Doubts</span></button>
+    <button data-page="chat">✉ <span data-i18n="chat">Chat</span></button>
+    <button data-page="reminders">♧ <span data-i18n="reminders">Reminders</span></button>
+    <button data-page="challenge">🏆 <span data-i18n="challenge">Weekly Challenge</span></button>
+    <button data-page="helper">✦ <span data-i18n="helper">AI Study Helper</span></button>
+  </nav>
+  <div class="sidequote">✨ <span data-i18n="quote">Small steps every day lead to big results!</span></div>
+</aside>
+<main>
+  <div class="banner hidden" id="banner"></div>
+  <div class="topbar">
+    <div><div class="eyebrow">STUDY TOGETHER</div><h2 style="margin:4px 0" data-i18n="dashboard">Study dashboard</h2></div>
+    <div class="topActions">
+      <select id="activeStudent" aria-label="Active student"><option value="egypt">🇪🇬 Student 1 · Egypt</option><option value="you">🇮🇳 Student 2 · You</option></select>
+      <button class="secondary" id="logoutBtn">Logout</button><button class="secondary" id="langToggle" aria-label="Change language">العربية</button>
+    </div>
+  </div>
+  <section id="page-home">
+    <div class="hero"><div><div class="eyebrow" data-i18n="welcomeSmall">YOUR SHARED STUDY SPACE</div><h1 data-i18n="welcome">Welcome to Study Duo</h1><p data-i18n="heroSub">Different countries · Different semesters · Same dream</p></div><div class="heroArt">🌍📚</div></div>
+    <div id="homeStats"></div>
+    <div class="sectionTitle"><h2 data-i18n="bothProgress">Your shared progress</h2><span class="subtle" data-i18n="updates">Updates on this device</span></div>
+    <div class="grid2">
+      <article class="student" id="card-egypt"></article>
+      <article class="student" id="card-you"></article>
+    </div>
+    <div class="featureGrid">
+      <div class="feature"><div class="emoji">💬</div><h3 data-i18n="chat">Chat</h3><p data-i18n="chatDesc">Send each other study messages.</p><button class="secondary" data-go="chat" data-i18n="open">Open</button></div>
+      <div class="feature"><div class="emoji">⏰</div><h3 data-i18n="reminders">Study reminders</h3><p data-i18n="reminderDesc">Set a time to remember studying.</p><button class="secondary" data-go="reminders" data-i18n="open">Open</button></div>
+      <div class="feature"><div class="emoji">✨</div><h3 data-i18n="helper">AI Study Helper</h3><p data-i18n="helperDesc">Get explanations and study guidance.</p><button class="secondary" data-go="helper" data-i18n="open">Open</button></div>
+      <div class="feature"><div class="emoji">🏆</div><h3 data-i18n="challenge">Weekly challenge</h3><p data-i18n="challengeDesc">Set goals and track your week.</p><button class="secondary" data-go="challenge" data-i18n="open">Open</button></div>
+    </div>
+    <div class="mutedBox" style="margin-top:16px" data-i18n="deviceNote">Prototype note: this version saves data in this browser. To share progress and chat live between Egypt and India, connect a secure online database and user accounts.</div>
+  </section>
+  <section id="page-subjects" class="hidden">
+    <div class="sectionTitle"><h2 data-i18n="myspace">My Study Space</h2><span class="subtle" id="subjectStudentLabel"></span></div>
+    <div id="subjectList" class="subjects"></div>
+    <div class="panel"><h3 data-i18n="addStudy">Add a study item</h3><div class="formRow"><select id="studySubject"></select><input id="studyTitle" placeholder="Chapter / note / task"><button id="addStudy" data-i18n="add">Add</button></div><div class="subtle" style="margin-top:8px" data-i18n="studyHint">Mark a chapter complete to update shared progress.</div><div id="studyItems" class="list" style="margin-top:12px"></div></div>
+  </section>
+  <section id="page-schedule" class="hidden">
+    <div class="sectionTitle"><h2 data-i18n="schedule">Schedule</h2><span class="subtle" id="schedLabel"></span></div>
+    <div class="days" id="dayChips"></div>
+    <div class="list" id="slotList" style="margin-top:14px"></div>
+    <div class="panel"><h3 data-i18n="addClass">Add a class</h3><div class="formRow"><select id="schedSubject"></select><input type="time" id="schedStart" value="09:00"><input type="time" id="schedEnd" value="10:00"><button id="addSlot" data-i18n="add">Add</button></div></div>
+  </section>
+  <section id="page-course" class="hidden">
+    <div class="formRow" style="margin-bottom:14px"><select id="courseSelect"></select></div>
+    <div id="courseBody"></div>
+  </section>
+  <section id="page-doubts" class="hidden">
+    <div class="sectionTitle"><h2 data-i18n="doubts">Doubts</h2></div>
+    <div class="panel"><div class="formRow"><select id="doubtSubject"></select><input id="doubtText" placeholder="Write your doubt..."><button id="askDoubt" data-i18n="askDoubt">Ask a doubt</button></div></div>
+    <div class="list" id="doubtList" style="margin-top:14px"></div>
+  </section>
+  <section id="page-chat" class="hidden">
+    <div class="sectionTitle"><h2 data-i18n="chat">Chat</h2><span class="subtle" data-i18n="localChat">Shared-device demo</span></div>
+    <div class="panel"><div class="chatLog" id="chatLog" aria-live="polite"></div><form id="chatForm" class="formRow"><input id="chatInput" maxlength="500" placeholder="Write a study message..." required><button data-i18n="send">Send</button></form><p class="subtle" data-i18n="chatNote">Messages are stored locally in this browser, not delivered to another device yet.</p></div>
+  </section>
+  <section id="page-reminders" class="hidden">
+    <div class="sectionTitle"><h2 data-i18n="reminders">Study reminders</h2></div>
+    <div class="panel"><form id="reminderForm" class="formRow"><input id="reminderText" placeholder="What do you want to study?" required><input id="reminderTime" type="datetime-local" required><button data-i18n="setReminder">Set reminder</button></form><p class="subtle" data-i18n="reminderNote">Keep this page open for in-page alerts. Browser notification permission may be requested.</p><div id="reminderList" class="list" style="margin-top:12px"></div></div>
+  </section>
+  <section id="page-challenge" class="hidden">
+    <div class="sectionTitle"><h2 data-i18n="challenge">Weekly Challenge</h2></div>
+    <div class="grid2">
+      <div class="panel"><h3 data-i18n="weeklyGoal">Your weekly goal</h3><p class="subtle" data-i18n="weeklyGoalSub">Choose how many study tasks you want to finish this week.</p><div class="formRow"><input type="number" id="goalInput" min="1" max="100" value="5"><button id="saveGoal" data-i18n="saveGoal">Save goal</button></div><div class="progressRow"><div class="ring" id="goalRing" style="--pct:0%"><strong id="goalPct">0%</strong></div><div class="progressInfo"><strong id="goalCount">0 / 5 tasks</strong><div class="bar"><span id="goalBar"></span></div></div></div></div>
+      <div class="panel"><h3 data-i18n="duoChallenge">Duo challenge</h3><p data-i18n="duoSub">Both students can aim to complete their own study tasks.</p><div id="duoSummary" class="list"></div></div>
+    </div>
+    <div class="panel"><h3 data-i18n="challengeTasks">Challenge tasks</h3><div class="formRow"><input id="challengeTask" placeholder="e.g. Finish chapter 2"><button id="addChallenge" data-i18n="add">Add</button></div><div id="challengeList" class="list" style="margin-top:12px"></div></div>
+  </section>
+  <section id="page-helper" class="hidden">
+    <div class="sectionTitle"><h2 data-i18n="helper">AI Study Helper</h2><span class="subtle" data-i18n="helperBadge">Study guide demo</span></div>
+    <div class="panel"><p class="subtle" data-i18n="helperIntro">Ask for help with one of your subjects. This offline demo provides study guidance; it is not connected to a live AI service.</p><div class="formRow"><select id="helperSubject"></select><input id="helperQuestion" placeholder="What do you want to understand?" required><button id="askHelper" data-i18n="ask">Ask</button></div><div id="helperAnswer" class="mutedBox" style="margin-top:14px;white-space:pre-wrap" data-i18n="helperDefault">Your explanation will appear here.</div></div>
+  </section>
+  <div class="foot">Study Duo · Learn · Practice · Grow together ♡</div>
+</main>
+</div>
+<div id="loginBox"><form class="panel" id="loginForm"><h3>📖 Study Duo</h3><p class="subtle">Login</p><input id="loginEmail" type="email" placeholder="Email" autocomplete="username" required><input id="loginPass" type="password" placeholder="Password" autocomplete="current-password" required><button>Login</button><p class="subtle" id="loginMsg" style="color:#e3566b"></p></form></div>
+<div id="roleBox"><div class="panel"><h3>Who are you? / من أنت؟</h3><button data-role="egypt">🇪🇬 Student 1 · Egypt</button><button data-role="you">🇮🇳 Student 2 · India</button></div></div>
+<div class="toast" id="toast" role="status"></div>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script>
+const subjects={
+ egypt:["Cost Accounting","Partners’ Accounting","Business Mathematics","Office Applications for Computers","Statistics"],
+ you:["Accountancy","Business Studies","Cost and Taxes","Commercial Law and Preliminaries of Auditing (CLPA)"]
+};
+const icons=["🧮","👥","∑","💻","📊","📘","💼","🧾","⚖️"];
+const translations={
+ en:{schedule:"Schedule",course:"Course",tasksDone:"Tasks done",progressShort:"Progress",streak:"Day streak",activity:"Study activity",last7:"Last 7 days",noClass:"No classes planned for this day.",addClass:"Add a class",lessons:"Lessons",addLesson:"Add a lesson",noLessons:"No lessons yet. Add chapters in My Study Space.",tapToDone:"Tap a lesson to mark it done.",tagline:"Two Students · One Goal",home:"Home",myspace:"My Study Space",chat:"Chat",reminders:"Study reminders",challenge:"Weekly Challenge",helper:"AI Study Helper",quote:"Small steps every day lead to big results!",dashboard:"Study dashboard",welcomeSmall:"YOUR SHARED STUDY SPACE",welcome:"Welcome to Study Duo",heroSub:"Different countries · Different semesters · Same dream",bothProgress:"Your shared progress",updates:"Updates on this device",chatDesc:"Send each other study messages.",reminderDesc:"Set a time to remember studying.",helperDesc:"Get explanations and study guidance.",challengeDesc:"Set goals and track your week.",open:"Open",deviceNote:"Prototype note: this version saves data in this browser. To share progress and chat live between Egypt and India, connect a secure online database and user accounts.",addStudy:"Add a study item",add:"Add",studyHint:"Mark a chapter complete to update shared progress.",localChat:"Shared-device demo",send:"Send",chatNote:"Messages are stored locally in this browser, not delivered to another device yet.",setReminder:"Set reminder",reminderNote:"Keep this page open for in-page alerts. Browser notification permission may be requested.",weeklyGoal:"Your weekly goal",weeklyGoalSub:"Choose how many study tasks you want to finish this week.",saveGoal:"Save goal",duoChallenge:"Duo challenge",duoSub:"Both students can aim to complete their own study tasks.",challengeTasks:"Challenge tasks",helperBadge:"Study guide demo",helperIntro:"Ask for help with one of your subjects. This offline demo provides study guidance; it is not connected to a live AI service.",ask:"Ask",helperDefault:"Your explanation will appear here.",subjects:"Subjects",progress:"Overall progress",completed:"completed",view:"Open",notes:"Notes",chapters:"Chapters",mcq:"MCQ",practice:"Practice",level:"Level 2 · First Semester",bis:"Business Information Systems (BIS)",semester4:"4th Semester · Commerce",countryEgypt:"Egypt",countryIndia:"India",tasks:"tasks",empty:"Nothing here yet.",done:"Complete",undo:"Undo",delete:"Delete",student1:"Student 1 — Egypt",student2:"Student 2 — You",taskPlaceholder:"Chapter / note / task",reminderPlaceholder:"What do you want to study?",messagePlaceholder:"Write a study message...",challengePlaceholder:"e.g. Finish chapter 2",questionPlaceholder:"What do you want to understand?",set:"Set",due:"Due",asked:"You asked",study:"Study",helperTip:"Try: Explain the purpose of cost accounting in simple terms.",goalSaved:"Weekly goal saved",added:"Added",sent:"Message saved on this device",reminderAdded:"Reminder set",completeTask:"Complete task to count it toward your weekly goal.",notSupported:"This demo cannot send data between devices yet.",helperAnswer:"Study tip for",askDetail:"Start by defining the key term, write down the formula or rule if relevant, then work through one example. Finally, test yourself with a short question and explain why your answer is correct.",studyItems:"Study items",markDone:"Mark complete"},
+ ar:{schedule:"الجدول",course:"المادة",tasksDone:"المهام المنجزة",progressShort:"التقدم",streak:"أيام متتالية",activity:"نشاط الدراسة",last7:"آخر 7 أيام",noClass:"لا توجد حصص في هذا اليوم.",addClass:"أضف حصة",lessons:"الدروس",addLesson:"أضف درسًا",noLessons:"لا توجد دروس بعد. أضف فصولًا من مساحة دراستي.",tapToDone:"اضغط على الدرس لتحديده كمكتمل.",tagline:"طالبان · هدف واحد",home:"الرئيسية",myspace:"مساحة دراستي",chat:"المحادثة",reminders:"تذكيرات الدراسة",challenge:"تحدي الأسبوع",helper:"مساعد الدراسة الذكي",quote:"خطوات صغيرة كل يوم تؤدي إلى نتائج كبيرة!",dashboard:"لوحة الدراسة",welcomeSmall:"مساحة الدراسة المشتركة",welcome:"مرحباً بك في Study Duo",heroSub:"بلدان مختلفة · فصول مختلفة · حلم واحد",bothProgress:"تقدمكما المشترك",updates:"التحديثات على هذا الجهاز",chatDesc:"تبادل رسائل الدراسة.",reminderDesc:"حدد وقتاً لتذكيرك بالدراسة.",helperDesc:"احصل على شرح وإرشادات دراسية.",challengeDesc:"حدد أهدافك وتابع أسبوعك.",open:"فتح",deviceNote:"ملاحظة: يحفظ هذا الإصدار البيانات في هذا المتصفح. لمشاركة التقدم والمحادثة مباشرة بين مصر والهند، يلزم ربط قاعدة بيانات آمنة وحسابات للمستخدمين.",addStudy:"إضافة مهمة دراسية",add:"إضافة",studyHint:"ضع علامة على الفصل المكتمل لتحديث التقدم المشترك.",localChat:"عرض تجريبي على جهاز واحد",send:"إرسال",chatNote:"تُحفظ الرسائل في هذا المتصفح ولا تصل إلى جهاز آخر بعد.",setReminder:"ضبط التذكير",reminderNote:"اترك الصفحة مفتوحة للتنبيهات. قد يطلب المتصفح إذن الإشعارات.",weeklyGoal:"هدفك الأسبوعي",weeklyGoalSub:"اختر عدد المهام الدراسية التي تريد إنجازها هذا الأسبوع.",saveGoal:"حفظ الهدف",duoChallenge:"تحدي الثنائي",duoSub:"يمكن لكل طالب إنجاز مهامه الدراسية الخاصة.",challengeTasks:"مهام التحدي",helperBadge:"عرض تجريبي للمساعدة",helperIntro:"اطلب المساعدة في أحد موادك. يقدم هذا العرض إرشادات دراسية دون اتصال بخدمة ذكاء اصطناعي مباشرة.",ask:"اسأل",helperDefault:"سيظهر الشرح هنا.",subjects:"المواد",progress:"التقدم العام",completed:"مكتمل",view:"فتح",notes:"ملاحظات",chapters:"الفصول",mcq:"اختيار من متعدد",practice:"تدريب",level:"المستوى الثاني · الفصل الأول",bis:"نظم معلومات الأعمال",semester4:"الفصل الرابع · تجارة",countryEgypt:"مصر",countryIndia:"الهند",tasks:"مهام",empty:"لا يوجد شيء هنا بعد.",done:"مكتمل",undo:"تراجع",delete:"حذف",student1:"الطالب الأول — مصر",student2:"الطالب الثاني — أنت",taskPlaceholder:"فصل / ملاحظة / مهمة",reminderPlaceholder:"ماذا تريد أن تدرس؟",messagePlaceholder:"اكتب رسالة دراسية...",challengePlaceholder:"مثال: إنهاء الفصل الثاني",questionPlaceholder:"ما الذي تريد فهمه؟",set:"ضبط",due:"الموعد",asked:"سؤالك",study:"الدراسة",helperTip:"جرّب: اشرح هدف محاسبة التكاليف ببساطة.",goalSaved:"تم حفظ الهدف الأسبوعي",added:"تمت الإضافة",sent:"حُفظت الرسالة على هذا الجهاز",reminderAdded:"تم ضبط التذكير",completeTask:"أكمل مهمة لاحتسابها ضمن هدفك الأسبوعي.",notSupported:"لا يستطيع هذا العرض إرسال البيانات بين الأجهزة بعد.",helperAnswer:"نصيحة دراسية حول",askDetail:"ابدأ بتعريف المصطلح الأساسي، واكتب الصيغة أو القاعدة إذا لزم الأمر، ثم حل مثالاً واحداً. أخيراً اختبر نفسك بسؤال قصير واشرح سبب صحة إجابتك.",studyItems:"المهام الدراسية",markDone:"تحديد كمكتمل"}
+};
+let lang="en",page="home",active="egypt";
+const $=id=>document.getElementById(id);
+const load=(k,d)=>{try{return JSON.parse(localStorage.getItem("studyduo_"+k))??d}catch{return d}};
+const save=(k,v)=>{try{localStorage.setItem("studyduo_"+k,JSON.stringify(v))}catch{}pushMine()};
+let state=load("state",{done:{egypt:[],you:[]},study:{egypt:[],you:[]},chat:[],reminders:[],challenge:[],goal:5});
+state.log=state.log||{};state.sched=state.sched||[];let courseSubject=null;
+const t=k=>translations[lang][k]||translations.en[k]||k;
+function toast(msg){const el=$("toast");el.textContent=msg;el.style.display="block";clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.style.display="none",2400)}
+function pct(s){const total=subjects[s].length+(state.study[s]||[]).length;if(!total)return 0;return Math.round((state.done[s]||[]).length/total*100)}
+function renderCards(){["egypt","you"].forEach(s=>{const isE=s==="egypt",done=(state.done[s]||[]).length,total=subjects[s].length+(state.study[s]||[]).length,p=pct(s);$("card-"+s).innerHTML=`<div class="studentHead"><div class="avatar">${isE?"🇪🇬":"📚"}</div><div style="flex:1"><h3>${isE?t("student1"):t("student2")}</h3><div class="subtle">${isE?t("level"):t("semester4")}</div><span class="pill">${isE?t("bis"):"Commerce"}</span></div></div><div class="progressRow"><div class="ring" style="--pct:${p}%"><strong>${p}%</strong></div><div class="progressInfo"><strong>${t("progress")}</strong><div class="subtle">${done} / ${total} ${t("completed")}</div><div class="bar"><span style="width:${p}%"></span></div></div></div><div class="sectionTitle" style="margin:14px 0 9px"><strong>${t("subjects")}</strong><button class="ghost" data-go="subjects" data-student="${s}">${t("view")}</button></div><div class="subjects">${subjects[s].map((name,i)=>`<div class="subject"><div class="subjectIcon">${icons[(isE?i:i+5)%icons.length]}</div><div class="subjectText"><strong>${name}</strong><small>${t("notes")} · ${t("chapters")} · ${t("mcq")} · ${t("practice")}</small></div><button class="secondary" data-open-subject="${encodeURIComponent(name)}" data-student="${s}">›</button></div>`).join("")}</div>`})}
+function populateSubjectSelects(){["studySubject","helperSubject"].forEach(id=>{$(id).innerHTML=subjects[active].map(s=>`<option>${s}</option>`).join("")});$("subjectStudentLabel").textContent=active==="egypt"?t("student1"):t("student2")}
+function renderStudy(){populateSubjectSelects();const items=state.study[active]||[];$("subjectList").innerHTML=subjects[active].map((s,i)=>`<div class="subject"><div class="subjectIcon">${icons[(active==="egypt"?i:i+5)%icons.length]}</div><div class="subjectText"><strong>${s}</strong><small>${(items.filter(x=>x.subject===s).length)} ${t("studyItems").toLowerCase()}</small></div><button class="secondary" data-add-default="${encodeURIComponent(s)}">${t("add")}</button></div>`).join("");$("studyItems").innerHTML=items.length?items.map((it,i)=>`<div class="item"><input type="checkbox" data-done="${i}" ${it.done?"checked":""} aria-label="${t("markDone")}"><div class="body"><strong>${escapeHtml(it.title)}</strong><small>${escapeHtml(it.subject)}</small></div><button data-delete-study="${i}">${t("delete")}</button></div>`).join(""):`<div class="mutedBox">${t("empty")}</div>`}
+function renderChat(){$("chatLog").innerHTML=state.chat.length?state.chat.map(m=>`<div class="bubble ${m.student===active?"mine":""}">${escapeHtml(m.text)}<small>${m.student==="egypt"?"🇪🇬 Egypt":"🇮🇳 You"} · ${new Date(m.time).toLocaleString()}</small></div>`).join(""):`<div class="mutedBox">${t("empty")}</div>`;$("chatLog").scrollTop=$("chatLog").scrollHeight}
+function renderReminders(){$("reminderList").innerHTML=state.reminders.length?state.reminders.map((r,i)=>r.student!==active?"":`<div class="item"><div class="body"><strong>${escapeHtml(r.text)}</strong><small>${new Date(r.time).toLocaleString()} · ${r.student==="egypt"?"🇪🇬 Egypt":"🇮🇳 You"} ${r.fired?"· 🔔":" "}</small></div><button data-delete-reminder="${i}">${t("delete")}</button></div>`).join(""):`<div class="mutedBox">${t("empty")}</div>`}
+function renderChallenge(){const done=state.challenge.filter(x=>x.done&&x.student===active).length,goal=Number(state.goal)||5,p=Math.min(100,Math.round(done/goal*100));$("goalInput").value=goal;$("goalPct").textContent=p+"%";$("goalRing").style.setProperty("--pct",p+"%");$("goalCount").textContent=`${done} / ${goal} ${t("tasks")}`;$("goalBar").style.width=p+"%";$("challengeList").innerHTML=state.challenge.length?state.challenge.map((x,i)=>x.student!==active?"":`<div class="item"><input type="checkbox" data-challenge-done="${i}" ${x.done?"checked":""}><div class="body"><strong>${escapeHtml(x.title)}</strong><small>${x.done?t("done"):t("completeTask")}</small></div><button data-delete-challenge="${i}">${t("delete")}</button></div>`).join(""):`<div class="mutedBox">${t("empty")}</div>`;$("duoSummary").innerHTML=["egypt","you"].map(s=>`<div class="item"><div class="body"><strong>${s==="egypt"?"🇪🇬 "+t("student1"):"🇮🇳 "+t("student2")}</strong><small>${(state.done[s]||[]).length} ${t("completed")} · ${pct(s)}%</small><div class="bar"><span style="width:${pct(s)}%"></span></div></div></div>`).join("")}
+function render(){document.documentElement.lang=lang;document.documentElement.dir=lang==="ar"?"rtl":"ltr";$("app").classList.toggle("rtl",lang==="ar");document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=t(el.dataset.i18n));$("langToggle").textContent=lang==="en"?"العربية":"English";$("activeStudent").value=active;document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===page));["home","subjects","schedule","course","doubts","chat","reminders","challenge","helper"].forEach(p=> $("page-"+p).classList.toggle("hidden",page!==p));renderCards();renderHome();renderDoubts();renderSchedule();renderCourse();renderStudy();renderChat();renderReminders();renderChallenge();$("studyTitle").placeholder=t("taskPlaceholder");$("chatInput").placeholder=t("messagePlaceholder");$("reminderText").placeholder=t("reminderPlaceholder");$("challengeTask").placeholder=t("challengePlaceholder");$("helperQuestion").placeholder=t("questionPlaceholder")}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function go(p){page=p;render()}
+document.addEventListener("click",e=>{const nav=e.target.closest("[data-page]");if(nav){go(nav.dataset.page);return}const g=e.target.closest("[data-go]");if(g){if(g.dataset.student)active=g.dataset.student;go(g.dataset.go);return}const sub=e.target.closest("[data-open-subject]");if(sub){active=sub.dataset.student;courseSubject=decodeURIComponent(sub.dataset.openSubject);go("course");return}const addDef=e.target.closest("[data-add-default]");if(addDef){$("studySubject").value=decodeURIComponent(addDef.dataset.addDefault);$("studyTitle").focus();return}const del=e.target.closest("[data-delete-study]");if(del){state.study[active].splice(+del.dataset.deleteStudy,1);save("state",state);render();return}const dr=e.target.closest("[data-delete-reminder]");if(dr){state.reminders.splice(+dr.dataset.deleteReminder,1);save("state",state);render();return}const dc=e.target.closest("[data-delete-challenge]");if(dc){state.challenge.splice(+dc.dataset.deleteChallenge,1);save("state",state);render();return}});
+document.addEventListener("change",e=>{if(e.target.matches("[data-done]")){const item=state.study[active][+e.target.dataset.done];item.done=e.target.checked;const key=active+":"+item.subject+":"+item.title;if(e.target.checked){if(!state.done[active].includes(key)){state.done[active].push(key);const lk=active+":"+dayKey(0);state.log[lk]=(state.log[lk]||0)+1}}else{state.done[active]=state.done[active].filter(x=>x!==key);const lk=active+":"+dayKey(0);state.log[lk]=Math.max(0,(state.log[lk]||0)-1)}save("state",state);render()}if(e.target.matches("[data-challenge-done]")){state.challenge[+e.target.dataset.challengeDone].done=e.target.checked;save("state",state);render()}});
+$("activeStudent").addEventListener("change",e=>{active=e.target.value;render()});
+$("langToggle").addEventListener("click",()=>{lang=lang==="en"?"ar":"en";render()});
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>{}));
+$("addStudy").addEventListener("click",()=>{const title=$("studyTitle").value.trim(),subject=$("studySubject").value;if(!title)return toast(t("taskPlaceholder"));state.study[active].push({title,subject,done:false});save("state",state);$("studyTitle").value="";render();toast(t("added"))});
+$("chatForm").addEventListener("submit",e=>{e.preventDefault();const text=$("chatInput").value.trim();if(!text)return;$("chatInput").value="";if(db){db.collection("chat").add({text,student:active,time:Date.now()}).then(()=>toast(t("sent"))).catch(()=>toast("Send failed"))}else{state.chat.push({text,student:active,time:Date.now()});renderChat()}});
+$("reminderForm").addEventListener("submit",e=>{e.preventDefault();const text=$("reminderText").value.trim(),time=$("reminderTime").value;if(!text||!time)return;state.reminders.push({text,time:new Date(time).toISOString(),student:active,fired:false});save("state",state);$("reminderText").value="";renderReminders();toast(t("reminderAdded"));if("Notification"in window&&Notification.permission==="default")Notification.requestPermission()});
+$("saveGoal").addEventListener("click",()=>{state.goal=Math.max(1,Math.min(100,Number($("goalInput").value)||5));save("state",state);renderChallenge();toast(t("goalSaved"))});
+$("addChallenge").addEventListener("click",()=>{const title=$("challengeTask").value.trim();if(!title)return;state.challenge.push({title,done:false,student:active});save("state",state);$("challengeTask").value="";renderChallenge();toast(t("added"))});
+$("askHelper").addEventListener("click",()=>{const q=$("helperQuestion").value.trim(),s=$("helperSubject").value;if(!q)return;$("helperAnswer").textContent=`${t("helperAnswer")} ${s}\n\n${t("asked")}: ${q}\n\n${t("askDetail")}\n\n${t("helperTip")}`});
+function checkReminders(){const now=Date.now();let changed=false;state.reminders.forEach(r=>{if(!r.fired&&r.student===active&&new Date(r.time).getTime()<=now){r.fired=true;changed=true;toast("⏰ "+r.text);if("Notification"in window&&Notification.permission==="granted")new Notification("Study Duo",{body:r.text})}});if(changed){save("state",state);renderReminders()}}
+
+const dayKey=n=>{const d=new Date();d.setDate(d.getDate()-n);return d.toLocaleDateString("en-CA")};
+const logOf=n=>state.log[active+":"+dayKey(n)]||0;
+function streak(){let s=0,n=logOf(0)>0?0:1;while(logOf(n)>0){s++;n++}return s}
+function renderHome(){const done=(state.done[active]||[]).length;const pts=[6,5,4,3,2,1,0].map(logOf);const max=Math.max(3,...pts);
+const xy=pts.map((v,i)=>[20+i*53,110-v/max*90]);const line=xy.map(p=>p.join(",")).join(" ");
+const names=[6,5,4,3,2,1,0].map(n=>{const d=new Date();d.setDate(d.getDate()-n);return d.toLocaleDateString(lang==="ar"?"ar-EG":"en-US",{weekday:"short"})});
+$("homeStats").innerHTML=`<div class="stats"><div class="stat s1"><small>${t("tasksDone")}</small><strong>${done}</strong></div><div class="stat s2"><small>${t("progressShort")}</small><strong>${pct(active)}%</strong></div><div class="stat s3"><small>${t("streak")}</small><strong>${streak()}</strong></div></div>
+${friendPanel()}<div class="panel"><h3>${t("activity")} <span class="subtle">· ${t("last7")}</span></h3><svg class="chart" viewBox="0 0 340 140" role="img" aria-label="${t("activity")}"><line x1="10" y1="110" x2="330" y2="110" stroke="#e0e3f7"/><polyline points="${line}" fill="none" stroke="#8a3ffc" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>${xy.map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="${pts[i]?"#f39a34":"#fff"}" stroke="#8a3ffc" stroke-width="2"/><text x="${p[0]}" y="131" font-size="10" text-anchor="middle" fill="#6f7392">${names[i]}</text>`).join("")}</svg></div>`}
+let schedDay=new Date().getDay();
+function renderSchedule(){$("schedLabel").textContent=active==="egypt"?t("student1"):t("student2");
+const base=new Date();base.setDate(base.getDate()-base.getDay());
+$("dayChips").innerHTML=[0,1,2,3,4,5,6].map(i=>{const d=new Date(base);d.setDate(base.getDate()+i);return `<button class="day ${i===schedDay?"on":""}" data-day="${i}"><small>${d.toLocaleDateString(lang==="ar"?"ar-EG":"en-US",{weekday:"short"})}</small>${d.getDate()}</button>`}).join("");
+$("schedSubject").innerHTML=subjects[active].map(s=>`<option>${s}</option>`).join("");
+const rows=state.sched.map((x,i)=>({...x,i})).filter(x=>x.student===active&&x.day===schedDay).sort((a,b)=>a.start.localeCompare(b.start));
+$("slotList").innerHTML=rows.length?rows.map(x=>`<div class="slot c${subjects[active].indexOf(x.subject)%4}"><div><strong>${escapeHtml(x.subject)}</strong><small>${x.start} - ${x.end}</small></div><button data-delete-slot="${x.i}">${t("delete")}</button></div>`).join(""):`<div class="mutedBox">${t("noClass")}</div>`}
+function renderCourse(){const list=subjects[active];if(!list.includes(courseSubject))courseSubject=list[0];
+$("courseSelect").innerHTML=list.map(s=>`<option ${s===courseSubject?"selected":""}>${s}</option>`).join("");
+const items=(state.study[active]||[]).map((x,i)=>({...x,i})).filter(x=>x.subject===courseSubject),done=items.filter(x=>x.done).length,p=items.length?Math.round(done/items.length*100):0;
+$("courseBody").innerHTML=`<div class="courseHead"><div class="heroArt">📘</div><div style="flex:1"><h2>${escapeHtml(courseSubject)}</h2><div>${items.length} ${t("lessons").toLowerCase()} · ${p}%</div><div class="bar" style="background:rgba(255,255,255,.3)"><span style="width:${p}%;background:#fff"></span></div></div></div>
+<div class="sectionTitle"><h2>${t("lessons")}</h2><button class="secondary" data-go="subjects">${t("addLesson")}</button></div>
+${items.length?`<div class="lessons">${items.map((x,n)=>`<label class="lesson ${x.done?"done":""}"><input type="checkbox" data-done="${x.i}" ${x.done?"checked":""}><span><strong>${escapeHtml(x.title)}</strong><small>${n+1}</small></span></label>`).join("")}</div><p class="subtle">${t("tapToDone")}</p>`:`<div class="mutedBox">${t("noLessons")}</div>`}`}
+$("courseSelect").addEventListener("change",e=>{courseSubject=e.target.value;renderCourse()});
+$("addSlot").addEventListener("click",()=>{const start=$("schedStart").value,end=$("schedEnd").value;if(!start||!end||end<=start)return toast(t("addClass"));state.sched.push({student:active,day:schedDay,subject:$("schedSubject").value,start,end});save("state",state);renderSchedule();toast(t("added"))});
+document.addEventListener("click",e=>{const d=e.target.closest("[data-day]");if(d){schedDay=+d.dataset.day;renderSchedule()}const x=e.target.closest("[data-delete-slot]");if(x){state.sched.splice(+x.dataset.deleteSlot,1);save("state",state);renderSchedule()}});
+
+Object.assign(translations.en,{doubts:"Doubts",askDoubt:"Ask a doubt",reply:"Reply",noDoubts:"No doubts yet. Ask the first one!",chatNote:"Messages are saved online. Your friend can read them whenever they study.",localChat:"Shared chat",deviceNote:"Progress, chat and doubts are saved online and shared between both students.",updates:"Live from both students",friendToday:"Your friend",tasksToday:"tasks done today",lastStudy:"Last studied",never:"Not yet"});
+Object.assign(translations.ar,{doubts:"الأسئلة",askDoubt:"اسأل سؤالًا",reply:"رد",noDoubts:"لا توجد أسئلة بعد. اطرح أول سؤال!",chatNote:"الرسائل محفوظة على الإنترنت ويمكن لصديقك قراءتها عند الدراسة.",localChat:"محادثة مشتركة",deviceNote:"التقدم والمحادثة والأسئلة محفوظة على الإنترنت ومشتركة بين الطالبين.",updates:"مباشر من الطالبين",friendToday:"صديقك",tasksToday:"مهام منجزة اليوم",lastStudy:"آخر دراسة",never:"لم يدرس بعد"});
+let db=null,myId=null,role=null,doubts=[];
+const other=()=>role==="egypt"?"you":"egypt";
+function friendPanel(){if(!role)return"";const o=other(),days=Object.keys(state.log).filter(k=>k.startsWith(o+":")&&state.log[k]>0).map(k=>k.slice(o.length+1)).sort();
+const last=days.length?days[days.length-1]:t("never"),today=state.log[o+":"+dayKey(0)]||0;
+return `<div class="panel"><h3>${o==="egypt"?"🇪🇬":"🇮🇳"} ${t("friendToday")}</h3><div class="subtle">${today} ${t("tasksToday")} · ${t("lastStudy")}: ${last} · ${pct(o)}%</div></div>`}
+function pushMine(){if(!db||!role)return;const s=role;db.doc("pairs/"+s).set({done:state.done[s]||[],study:state.study[s]||[],log:Object.fromEntries(Object.entries(state.log).filter(([k])=>k.startsWith(s+":"))),sched:state.sched.filter(x=>x.student===s),reminders:state.reminders.filter(x=>x.student===s),challenge:state.challenge.filter(x=>x.student===s),goal:Number(state.goal)||5}).catch(()=>toast("Save failed"))}
+function applyRemote(s,d){state.done[s]=d.done||[];state.study[s]=d.study||[];Object.keys(state.log).forEach(k=>{if(k.startsWith(s+":"))delete state.log[k]});Object.assign(state.log,d.log||{});
+state.sched=state.sched.filter(x=>x.student!==s).concat(d.sched||[]);state.reminders=state.reminders.filter(x=>x.student!==s).concat(d.reminders||[]);state.challenge=state.challenge.filter(x=>x.student!==s).concat(d.challenge||[]);if(s===role)state.goal=d.goal||5}
+function renderDoubts(){if(!$("doubtList"))return;$("doubtSubject").innerHTML=subjects[active].map(s=>`<option>${s}</option>`).join("");$("doubtText").placeholder=t("askDoubt");
+$("doubtList").innerHTML=doubts.length?doubts.map(d=>`<div class="item" style="display:block"><strong>${d.student==="egypt"?"🇪🇬":"🇮🇳"} ${escapeHtml(d.subject||"")}</strong><div>${escapeHtml(d.text)}</div>${(d.replies||[]).map(r=>`<div class="reply">${r.student==="egypt"?"🇪🇬":"🇮🇳"} ${escapeHtml(r.text)}</div>`).join("")}<div class="formRow" style="margin-top:8px"><input data-reply-in="${d.id}" placeholder="${t("reply")}..."><button data-reply="${d.id}">${t("reply")}</button></div></div>`).join(""):`<div class="mutedBox">${t("noDoubts")}</div>`}
+document.addEventListener("click",e=>{const r=e.target.closest("[data-role]");if(r){setRole(r.dataset.role);return}
+const b=e.target.closest("[data-reply]");if(b&&db){const inp=document.querySelector(`[data-reply-in="${b.dataset.reply}"]`),text=inp.value.trim(),d=doubts.find(x=>x.id===b.dataset.reply);if(!text||!d)return;db.doc("doubts/"+d.id).update({replies:[...(d.replies||[]),{student:active,text,time:Date.now()}]}).catch(()=>toast("Send failed"))}});
+$("askDoubt").addEventListener("click",()=>{const text=$("doubtText").value.trim();if(!text)return;if(!db)return toast("Pehle login karo");$("doubtText").value="";db.collection("doubts").add({student:active,subject:$("doubtSubject").value,text,time:Date.now(),replies:[]}).then(()=>toast(t("added"))).catch(()=>toast("Send failed"))});
+const firebaseConfig={apiKey:"AIzaSyBJksmknQNuK5F33QqAohy5BLkwtAuzJFc",authDomain:"project-duo-467e7.firebaseapp.com",projectId:"project-duo-467e7",storageBucket:"project-duo-467e7.firebasestorage.app",messagingSenderId:"1037256340848",appId:"1:1037256340848:web:d6131f0f164c8f4c3b8bb5"};
+const banner=m=>{$("banner").textContent=m;$("banner").classList.remove("hidden")};
+let unsubs=[];const unsub=()=>{unsubs.forEach(f=>f());unsubs=[]};
+async function setRole(r){role=r;active=r;$("roleBox").style.display="none";$("activeStudent").style.display="none";if(db&&myId)db.doc("users/"+myId).set({role:r}).catch(()=>{});render();pushMine()}
+function listen(){unsub();
+["egypt","you"].forEach(s=>unsubs.push(db.doc("pairs/"+s).onSnapshot(sn=>{const d=sn.data();if(d){applyRemote(s,d);render()}},()=>banner("Data nahi mil raha. Firestore Rules check karo."))));
+unsubs.push(db.collection("chat").orderBy("time","asc").limit(300).onSnapshot(sn=>{state.chat=sn.docs.map(x=>x.data());renderChat()},()=>{}));
+unsubs.push(db.collection("doubts").orderBy("time","desc").limit(100).onSnapshot(sn=>{doubts=sn.docs.map(x=>({id:x.id,...x.data()}));renderDoubts()},()=>{}))}
+function initOnline(){
+try{firebase.initializeApp(firebaseConfig);db=firebase.firestore();const auth=firebase.auth();
+$("loginForm").addEventListener("submit",async e=>{e.preventDefault();$("loginMsg").textContent="";try{await auth.signInWithEmailAndPassword($("loginEmail").value.trim(),$("loginPass").value)}catch(err){$("loginMsg").textContent="Email ya password galat hai."}});
+$("logoutBtn").addEventListener("click",()=>auth.signOut());
+auth.onAuthStateChanged(async u=>{if(!u){unsub();myId=null;role=null;$("loginBox").style.display="grid";return}
+myId=u.uid;$("loginBox").style.display="none";listen();
+let saved=null;try{const p=await db.doc("users/"+myId).get();saved=p.exists?p.data().role:null}catch{}
+if(saved)setRole(saved);else $("roleBox").style.display="grid"})}
+catch(err){$("loginMsg").textContent="Firebase load nahi hua. Internet check karo."}}
+initOnline();
+setInterval(checkReminders,15000);render();
+</script>
+</body>
+</html>
